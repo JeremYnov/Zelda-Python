@@ -1,24 +1,50 @@
 import pygame
+import os
+import sys
+from ressources.Character import Character
+from ressources.Characteristics import Characteristics
+from ressources.Entity import Entity
+from ressources.Inventory import Inventory
+from ressources.Monster import Monster
+from ressources.Potion import Potion
+from ressources.Weapon import Weapon
+
+
+SCRIPTPATH = os.path.realpath(__file__).replace("\\main.py", "")
+
 
 pygame.init()
 
 # Générer la fenetre du jeu 
 pygame.display.set_caption("Zelda Python")
-screen = pygame.display.set_mode((1080, 720))  # Le set_mode renvoie une surface
+SCREEN = pygame.display.set_mode((1080, 720))  # Le set_mode renvoie une surface
 
 # Importer et charger le background  de notre jeu 
-background = pygame.image.load('assets/backgrounds/canyon.jpg')
+BACKGROUND = pygame.image.load(SCRIPTPATH + '/assets/backgrounds/canyon.jpg')
 # Redimensioner le background à la taille de notre screen
-background = pygame.transform.scale(background, (1280, 720))
+BACKGROUND = pygame.transform.scale(BACKGROUND, (1280, 720))
 
-running = True
+RUNNING = True
+
+CHARACTER = Character("Jason", Characteristics(50, 100, 3, 3, 3), Inventory(20), pygame.image.load(SCRIPTPATH + "\\assets\\characters\\test.png"))
+
+MONSTER = Monster("gringo", Characteristics(1000, 1200, 2, 2, 2), pygame.image.load(SCRIPTPATH + "\\assets\\characters\\test.png"))
+
+print(CHARACTER.getName())
+print(CHARACTER.getCharacteristics().getAttack())
+CHARACTER.getCharacteristics().setAttack(20)
+print(CHARACTER.getCharacteristics().getAttack())
+
 
 # Boucle tant que running = true 
-while running:
+while RUNNING:
 
     # Appliquer le background à notre fenêtre et gérer l'espacement
-    screen.blit(background, (0, 0))  # blit(nomdubackground,(largeur,longueur))
+    SCREEN.blit(BACKGROUND, (0, 0))  # blit(nomdubackground,(largeur,longueur))
 
+    # Appliquer l'image du joueur et gérer ses déplacement via son attribut __rect
+    SCREEN.blit(CHARACTER.getImage(), CHARACTER.getRect())
+    
     # Mettre à jour l'écran 
     pygame.display.flip()
 
