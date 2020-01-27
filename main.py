@@ -26,15 +26,12 @@ BACKGROUND = pygame.transform.scale(BACKGROUND, (1280, 720))
 
 RUNNING = True
 
+PRESSED = {} #Dictionnaire des touches qui sont actuellement enfoncées
+
+
 CHARACTER = Character("Jason", Characteristics(50, 100, 3, 3, 3), Inventory(20), pygame.image.load(SCRIPTPATH + "\\assets\\characters\\test.png"))
 
 MONSTER = Monster("gringo", Characteristics(1000, 1200, 2, 2, 2), pygame.image.load(SCRIPTPATH + "\\assets\\characters\\test.png"))
-
-print(CHARACTER.getName())
-print(CHARACTER.getCharacteristics().getAttack())
-CHARACTER.getCharacteristics().setAttack(20)
-print(CHARACTER.getCharacteristics().getAttack())
-
 
 # Boucle tant que running = true 
 while RUNNING:
@@ -45,12 +42,25 @@ while RUNNING:
     # Appliquer l'image du joueur et gérer ses déplacement via son attribut __rect
     SCREEN.blit(CHARACTER.getImage(), CHARACTER.getRect())
     
+    if PRESSED.get(pygame.K_RIGHT):
+        CHARACTER.moveRight()
+    elif PRESSED.get(pygame.K_LEFT):
+        CHARACTER.moveLeft()
+        
     # Mettre à jour l'écran 
     pygame.display.flip()
 
-    # Si le joueur ferme la fenêtre 
+    # Detecter si le joueur ferme la fenêtre 
     for event in pygame.event.get():
         # Si l'evenement est la fermeture de la fenetre 
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
+    
+    # Detecter si le joueur lache une touche
+        elif event.type == pygame.KEYDOWN:
+            #quelle touche a été utilisée
+            PRESSED[event.key] = True
+        
+        elif event.type == pygame.KEYUP:
+            PRESSED[event.key] = False

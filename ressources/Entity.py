@@ -21,3 +21,4 @@ class Entity():
         
     def setCharacteristics(self, value):
         self.__characteristics = value
+    

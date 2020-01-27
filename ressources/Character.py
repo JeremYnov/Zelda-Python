@@ -15,6 +15,8 @@ class Character(pygame.sprite.Sprite, Entity) :
         self.__inventory = inventory
         self.__image = image # pygame.image.load('chemin/nomdelimage')
         self.__rect = self.getImage().get_rect()
+        self.__rect.x = 300
+        self.__rect.y = 400
         
     def getInventory(self):
         return self.__inventory
@@ -33,3 +35,9 @@ class Character(pygame.sprite.Sprite, Entity) :
         
     def setRect(self, value):
         self.__rect = value
+        
+    def moveRight(self):
+        self.__rect.x += self.getCharacteristics().getSpeed()
+        
+    def moveLeft(self):
+        self.__rect.x -= self.getCharacteristics().getSpeed()
